@@ -98,7 +98,10 @@ class PaymentController extends GetxController {
       if (address.startsWith('0x')) {
         walletAddressController.text = address;
       } else {
-        Get.snackbar('Invalid QR Code', 'The scanned code does not contain a valid wallet address.');
+        Get.snackbar(
+          'Invalid QR Code',
+          'The scanned code does not contain a valid wallet address.',
+        );
       }
     }
   }
@@ -107,18 +110,27 @@ class PaymentController extends GetxController {
   void proceedToPay() async {
     isPaying.value = true;
 
-    final walletAddress = 
-    final amount = selectedAmount.value ?? double.tryParse(customAmountController.text);
+    final walletAddress = '0xaf517d7efb9ed69c3df2f9887d1678fef93063fe';
+    final amount =
+        selectedAmount.value ?? double.tryParse(customAmountController.text);
 
     // --- Input Validation ---
-    if (walletAddress.isEmpty || !walletAddress.startsWith('0x') || walletAddress.length != 42) {
-      Get.snackbar('Invalid Wallet Address', 'Please enter a valid 42-character wallet address starting with "0x".');
+    if (walletAddress.isEmpty ||
+        !walletAddress.startsWith('0x') ||
+        walletAddress.length != 42) {
+      Get.snackbar(
+        'Invalid Wallet Address',
+        'Please enter a valid 42-character wallet address starting with "0x".',
+      );
       isPaying.value = false;
       return;
     }
 
     if (amount == null || amount <= 0) {
-      Get.snackbar('Invalid Amount', 'Please select or enter a valid payment amount.');
+      Get.snackbar(
+        'Invalid Amount',
+        'Please select or enter a valid payment amount.',
+      );
       isPaying.value = false;
       return;
     }
@@ -142,8 +154,13 @@ class PaymentController extends GetxController {
         },
       );
     } catch (e) {
-      Get.snackbar('Error', 'Could not generate payment URL. Please try another provider or check your connection.');
-      print("Error creating payment URL with ${selectedProvider.value.name}: $e");
+      Get.snackbar(
+        'Error',
+        'Could not generate payment URL. Please try another provider or check your connection.',
+      );
+      print(
+        "Error creating payment URL with ${selectedProvider.value.name}: $e",
+      );
     } finally {
       // Ensure the loading state is always reset
       isPaying.value = false;
